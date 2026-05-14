@@ -30,6 +30,8 @@ export default function Philosophy() {
           <img
             src={PHILOSOPHY_HERO.imageSrc}
             alt={PHILOSOPHY_HERO.imageAlt}
+            fetchPriority="high"
+            decoding="async"
             className="w-full h-full object-cover object-center scale-[1.03] saturate-[0.96] brightness-[1.03]"
           />
           {/* мягкий холодно-зелёный градиент вместо ровного чёрного — без «кровавых» оттенков */}

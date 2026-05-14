@@ -30,7 +30,11 @@ export default function Home() {
         <div className="absolute inset-0 z-0">
           <img
             src={HOME_HERO_IMAGE.src}
+            srcSet={`${HOME_HERO_IMAGE.srcMobile} 800w, ${HOME_HERO_IMAGE.src} 1600w`}
+            sizes="100vw"
             alt={HOME_HERO_IMAGE.alt}
+            fetchPriority="high"
+            decoding="async"
             className="w-full h-full object-cover scale-105 animate-[slowZoom_20s_ease-in-out_infinite_alternate]"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-[#F5F4F0]" />

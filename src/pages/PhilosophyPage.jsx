@@ -18,6 +18,8 @@ export default function PhilosophyPage() {
           <img
             src={hero.imageSrc}
             alt={hero.imageAlt}
+            fetchPriority="high"
+            decoding="async"
             className="w-full h-full object-cover object-center lg:object-bottom scale-[1.02] saturate-[0.94] brightness-[1.02]"
           />
           <div

@@ -44,6 +44,8 @@ function TerritoryImageCard({
       <img
         src={imageSrc}
         alt={imageAlt}
+        loading="lazy"
+        decoding="async"
         draggable={false}
         className={`absolute inset-0 h-full w-full object-cover transition-transform duration-[2s] group-hover:scale-105 ${imageClassName}`}
       />
@@ -134,6 +136,8 @@ export default function Territory() {
           <img
             src={TERRITORY_HERO.imageSrc}
             alt={TERRITORY_HERO.imageAlt}
+            fetchPriority="high"
+            decoding="async"
             className="h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-black/40"></div>

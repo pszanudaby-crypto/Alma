@@ -21,12 +21,13 @@ export const HOME_AUDIENCE_SECTION = {
 };
 
 export const HOME_HERO_IMAGE = {
-  src: 'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?q=80&w=2070&auto=format&fit=crop',
+  src: 'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?q=75&w=1600&fm=webp&auto=format&fit=crop',
+  srcMobile: 'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?q=75&w=800&fm=webp&auto=format&fit=crop',
   alt: 'Лес и деревянный мост',
 };
 
 export const PHILOSOPHY_HERO = {
-  imageSrc: '/images/hero-calm-lake.png',
+  imageSrc: '/images/hero-calm-lake.jpg',
   imageAlt: 'Спокойное озеро в тумане на рассвете, кувшинка и деревянный пирс',
   title: 'Реабилитация',
   subtitle: 'Смысл, заложенный в каждом сантиметре «Альмы»',
@@ -63,7 +64,7 @@ export const PHILOSOPHY_SUPPORT_SECTION = {
 /** Страница «Философия» — кому откликается проект (сегменты аудитории). */
 export const PHILOSOPHY_PAGE = {
   hero: {
-    imageSrc: '/images/philosophy-hero.png',
+    imageSrc: '/images/philosophy-hero.jpg',
     imageAlt:
       'Туманный лес на рассвете: низкий столик с чаем и травами, свёрнутый плед и камень с надписью ALMA на мху',
     title: 'Философия',
@@ -148,7 +149,7 @@ export const PHILOSOPHY_PAGE = {
 
 export const TERRITORY_HERO = {
   imageSrc:
-    'https://images.unsplash.com/photo-1505159940484-eb2b9f2588e2?q=80&w=2070&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1505159940484-eb2b9f2588e2?q=75&w=1600&fm=webp&auto=format&fit=crop',
   imageAlt: 'Финский залив',
   title: 'Территория',
   subtitle: 'Элементы восполнения ресурса',

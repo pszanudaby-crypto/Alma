@@ -56,7 +56,7 @@ export const TERRITORY_FEATURES = [
   },
   {
     kind: 'square-image',
-    imageSrc: '/images/territory/barnhouse-guest.png',
+    imageSrc: '/images/territory/barnhouse-guest.jpg',
     imageAlt: 'Барнхаус для гостей: терраса, outdoor kitchen и купель на участке средь озеленения и леса на горизонте',
     tag: '03 / Барнхаусы',
     title: 'Домики для гостей',
@@ -96,7 +96,7 @@ export const TERRITORY_FEATURES = [
   },
   {
     kind: 'square-image',
-    imageSrc: '/images/territory/lounge-bbq-cinema.png',
+    imageSrc: '/images/territory/lounge-bbq-cinema.jpg',
     imageAlt: 'Вечерняя общественная зона: углублённый лаунж с костром, кухня с грилем и экран уличного кинотеатра',
     tag: '08 / Открытый воздух',
     title: 'Лаунж, BBQ и кино',
@@ -121,7 +121,7 @@ export const TERRITORY_FEATURES = [
   },
   {
     kind: 'square-image',
-    imageSrc: '/images/territory/sauna-banya.png',
+    imageSrc: '/images/territory/sauna-banya.jpg',
     imageAlt: 'Уличная баня с паром и деревянная купель на террасе среди туманного соснового леса',
     imageClassName: 'object-cover object-center',
     tag: '11 / Баня и парная',
