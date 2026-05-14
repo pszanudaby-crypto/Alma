@@ -40,7 +40,7 @@ export const TERRITORY_INTRO =
 export const TERRITORY_FEATURES = [
   {
     kind: 'wide-image',
-    imageSrc: '/images/territory/genplan.jpeg',
+    imageSrc: '/images/territory/genplan.webp',
     imageAlt: 'Генплан территории центра «Альма» с домиками, дорожками, озеленением и функциональными зонами',
     tag: '01 / План территории',
     title: 'Зоны отдыха на одном участке',
@@ -72,7 +72,7 @@ export const TERRITORY_FEATURES = [
   },
   {
     kind: 'square-image',
-    imageSrc: '/images/territory/grill-house.jpeg',
+    imageSrc: '/images/territory/grill-house.webp',
     imageAlt: 'Закрытый деревянный гриль-домик с панорамными окнами на закате',
     tag: '05 / Гриль-домик',
     title: 'Закрытый гриль-домик',
@@ -88,7 +88,7 @@ export const TERRITORY_FEATURES = [
   },
   {
     kind: 'square-image',
-    imageSrc: '/images/territory/tea-greenhouse.jpeg',
+    imageSrc: '/images/territory/tea-greenhouse.webp',
     imageAlt: 'Стеклянная теплица с уютным освещением среди деревьев',
     tag: '07 / Теплица и чайный домик',
     title: 'Теплица в английском стиле',
@@ -104,7 +104,7 @@ export const TERRITORY_FEATURES = [
   },
   {
     kind: 'square-image',
-    imageSrc: '/images/territory/swing-nook.jpeg',
+    imageSrc: '/images/territory/swing-nook.webp',
     imageAlt: 'Подвесная кровать-качели среди зелени',
     imageClassName: 'object-cover object-[center_78%]',
     tag: '09 / Уголки отдыха',
@@ -121,7 +121,7 @@ export const TERRITORY_FEATURES = [
   },
   {
     kind: 'square-image',
-    imageSrc: '/images/territory/sauna-banya.jpg',
+    imageSrc: '/images/territory/sauna-banya.webp',
     imageAlt: 'Уличная баня с паром и деревянная купель на террасе среди туманного соснового леса',
     imageClassName: 'object-cover object-center',
     tag: '11 / Баня и парная',

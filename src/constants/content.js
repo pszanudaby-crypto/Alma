@@ -27,7 +27,7 @@ export const HOME_HERO_IMAGE = {
 };
 
 export const PHILOSOPHY_HERO = {
-  imageSrc: '/images/hero-calm-lake.jpg',
+  imageSrc: '/images/hero-calm-lake.webp',
   imageAlt: 'Спокойное озеро в тумане на рассвете, кувшинка и деревянный пирс',
   title: 'Реабилитация',
   subtitle: 'Смысл, заложенный в каждом сантиметре «Альмы»',
@@ -64,7 +64,7 @@ export const PHILOSOPHY_SUPPORT_SECTION = {
 /** Страница «Философия» — кому откликается проект (сегменты аудитории). */
 export const PHILOSOPHY_PAGE = {
   hero: {
-    imageSrc: '/images/philosophy-hero.jpg',
+    imageSrc: '/images/philosophy-hero.webp',
     imageAlt:
       'Туманный лес на рассвете: низкий столик с чаем и травами, свёрнутый плед и камень с надписью ALMA на мху',
     title: 'Философия',
@@ -149,9 +149,9 @@ export const PHILOSOPHY_PAGE = {
 
 export const TERRITORY_HERO = {
   /** Полный кадр для desktop; раздаётся с того же домена, что и сайт. */
-  imageSrc: '/images/territory-hero.jpg',
+  imageSrc: '/images/territory-hero.webp',
   /** Узкая версия для мобильных (меньше пикселей и вес). */
-  imageSrcMobile: '/images/territory-hero-sm.jpg',
+  imageSrcMobile: '/images/territory-hero-sm.webp',
   imageAlt: 'Финский залив',
   title: 'Территория',
   subtitle: 'Элементы восполнения ресурса',
