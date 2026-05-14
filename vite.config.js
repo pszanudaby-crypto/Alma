@@ -24,6 +24,16 @@ const lanOrigin = lanHost ? `http://${lanHost}:${DEV_PORT}` : undefined;
 
 export default defineConfig({
   plugins: [react()],
+  build: {
+    rollupOptions: {
+      output: {
+        /** Отдельный парс framer-motion — быстрее первый интерактив на слабых телефонах. */
+        manualChunks(id) {
+          if (id.includes('node_modules/framer-motion')) return 'framer-motion';
+        },
+      },
+    },
+  },
   server: {
     host: true,
     port: DEV_PORT,

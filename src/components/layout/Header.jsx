@@ -68,6 +68,29 @@ export default function Header() {
     queryClient.prefetchQuery({ queryKey: ['territory', 'features'], queryFn: fetchTerritoryFeatures });
   }, [queryClient]);
 
+  const prefetchInvestorsChunk = useCallback(() => {
+    void import('../../pages/investors/index.jsx');
+  }, []);
+
+  const prefetchDiaryChunk = useCallback(() => {
+    void import('../../pages/diary/index.jsx');
+  }, []);
+
+  const handleNavPrefetch = useCallback(
+    (path) => {
+      if (path === ROUTES.territory) {
+        prefetchTerritory();
+      }
+      if (path === ROUTES.support) {
+        prefetchInvestorsChunk();
+      }
+      if (path === ROUTES.constructionDiary) {
+        prefetchDiaryChunk();
+      }
+    },
+    [prefetchTerritory, prefetchInvestorsChunk, prefetchDiaryChunk],
+  );
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -86,6 +109,8 @@ export default function Header() {
     >
       <Link
         to={ROUTES.support}
+        onMouseEnter={prefetchInvestorsChunk}
+        onTouchStart={prefetchInvestorsChunk}
         className="h-10 sm:h-12 flex items-center justify-center bg-[#4A5D4E] text-white cursor-pointer hover:bg-[#3d4d41] transition-colors"
       >
         <span className="text-[9px] sm:text-[11px] uppercase tracking-[0.15em] sm:tracking-[0.2em] font-medium flex items-center gap-2 px-4 text-center">
@@ -155,8 +180,8 @@ export default function Header() {
                 <Link
                   key={item.id}
                   to={item.path}
-                  onMouseEnter={item.path === ROUTES.territory ? prefetchTerritory : undefined}
-                  onFocus={item.path === ROUTES.territory ? prefetchTerritory : undefined}
+                  onMouseEnter={() => handleNavPrefetch(item.path)}
+                  onFocus={() => handleNavPrefetch(item.path)}
                   className={`relative px-6 py-2.5 rounded-full text-sm font-semibold tracking-wider transition-all duration-300 ${
                     active
                       ? solidSurface
@@ -314,8 +339,8 @@ export default function Header() {
                 <Link
                   key={item.id}
                   to={item.path}
-                  onTouchStart={item.path === ROUTES.territory ? prefetchTerritory : undefined}
-                  onMouseEnter={item.path === ROUTES.territory ? prefetchTerritory : undefined}
+                  onTouchStart={() => handleNavPrefetch(item.path)}
+                  onMouseEnter={() => handleNavPrefetch(item.path)}
                   className={`text-left text-xl font-serif px-6 py-4 rounded-2xl transition-colors ${
                     active ? 'bg-[#EBE9E1] text-[#4A5D4E]' : 'text-[#2D332F] hover:bg-black/5'
                   }`}
