@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import FadeUp from '../components/ui/FadeUp.jsx';
 import SEOMeta from '../components/ui/SEOMeta.jsx';
@@ -15,6 +15,8 @@ function TerritoryImageCard({
   tag,
   title,
   description,
+  /** Первые карточки — eager (видны сразу на мобильном), остальные — lazy. */
+  loadingImg = 'lazy',
 }) {
   const [touchPeek, setTouchPeek] = useState(false);
   const overlayClass = touchPeek ? 'opacity-0' : 'opacity-100 group-hover:opacity-0';
@@ -44,7 +46,7 @@ function TerritoryImageCard({
       <img
         src={imageSrc}
         alt={imageAlt}
-        loading="lazy"
+        loading={loadingImg}
         decoding="async"
         draggable={false}
         sizes={isWide
@@ -127,6 +129,29 @@ export default function Territory() {
     queryFn: fetchTerritoryFeatures,
   });
 
+  /** Ранняя подсказка браузеру: тот же домен, что и страница — быстрее на мобильном, чем внешний CDN. */
+  useEffect(() => {
+    const sm = TERRITORY_HERO.imageSrcMobile;
+    const full = TERRITORY_HERO.imageSrc;
+    const links = [
+      { href: sm, media: '(max-width: 600px)' },
+      { href: full, media: '(min-width: 601px)' },
+    ];
+    const els = links.map(({ href, media }) => {
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = href;
+      link.setAttribute('fetchpriority', 'high');
+      link.media = media;
+      document.head.appendChild(link);
+      return link;
+    });
+    return () => {
+      els.forEach((el) => el.remove());
+    };
+  }, []);
+
   return (
     <div className="page-transition bg-[#EBE9E1] min-h-screen pb-24">
       <SEOMeta
@@ -138,10 +163,12 @@ export default function Territory() {
         <div className="absolute inset-0 z-0">
           <img
             src={TERRITORY_HERO.imageSrc}
+            srcSet={`${TERRITORY_HERO.imageSrcMobile} 800w, ${TERRITORY_HERO.imageSrc} 1600w`}
+            sizes="100vw"
             alt={TERRITORY_HERO.imageAlt}
             fetchPriority="high"
             decoding="async"
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover bg-[#5a6b7a]"
           />
           <div className="absolute inset-0 bg-black/40"></div>
         </div>
@@ -162,7 +189,8 @@ export default function Territory() {
 
         {features && (
           <div className="mb-32 grid grid-cols-1 items-stretch gap-6 md:grid-cols-12 md:gap-7">
-            {features.map((item) => {
+            {features.map((item, index) => {
+              const eagerFirst = index < 2;
               if (item.kind === 'wide-image') {
                 return (
                   <TerritoryImageCard
@@ -174,6 +202,7 @@ export default function Territory() {
                     tag={item.tag}
                     title={item.title}
                     description={item.description}
+                    loadingImg={eagerFirst ? 'eager' : 'lazy'}
                   />
                 );
               }
@@ -189,6 +218,7 @@ export default function Territory() {
                     tag={item.tag}
                     title={item.title}
                     description={item.description}
+                    loadingImg={eagerFirst ? 'eager' : 'lazy'}
                   />
                 );
               }

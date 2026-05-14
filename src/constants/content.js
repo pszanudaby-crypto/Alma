@@ -148,8 +148,10 @@ export const PHILOSOPHY_PAGE = {
 };
 
 export const TERRITORY_HERO = {
-  imageSrc:
-    'https://images.unsplash.com/photo-1505159940484-eb2b9f2588e2?q=75&w=1600&fm=webp&auto=format&fit=crop',
+  /** Полный кадр для desktop; раздаётся с того же домена, что и сайт. */
+  imageSrc: '/images/territory-hero.jpg',
+  /** Узкая версия для мобильных (меньше пикселей и вес). */
+  imageSrcMobile: '/images/territory-hero-sm.jpg',
   imageAlt: 'Финский залив',
   title: 'Территория',
   subtitle: 'Элементы восполнения ресурса',

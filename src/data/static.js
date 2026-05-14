@@ -48,7 +48,7 @@ export const TERRITORY_FEATURES = [
   },
   {
     kind: 'square-image',
-    imageSrc: 'https://images.unsplash.com/photo-1505159940484-eb2b9f2588e2?q=75&w=1400&fm=webp&auto=format&fit=crop',
+    imageSrc: 'https://images.unsplash.com/photo-1505159940484-eb2b9f2588e2?q=70&w=800&fm=webp&auto=format&fit=crop',
     imageAlt: 'Спокойная гладь Финского залива',
     tag: '02 / Финский залив',
     title: 'Вода рядом',

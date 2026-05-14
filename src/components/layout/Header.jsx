@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import { ArrowRight, Heart, Menu, X } from 'lucide-react';
 import LeafIcon from '../ui/LeafIcon.jsx';
 import AuthModal from '../auth/AuthModal.jsx';
@@ -7,6 +8,7 @@ import ContactModal from '../ui/ContactModal.jsx';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { MOBILE_NAV_ITEMS, NAV_ITEMS, ROUTES } from '../../constants/navigation.js';
 import { HEADER_COPY } from '../../constants/content.js';
+import { fetchTerritoryIntro, fetchTerritoryFeatures } from '../../api/mocks.js';
 
 function isActivePath(currentPath, itemPath) {
   if (itemPath === ROUTES.home) {
@@ -26,6 +28,7 @@ const ROUTES_WITH_DARK_HERO = new Set([
 
 export default function Header() {
   const { pathname } = useLocation();
+  const queryClient = useQueryClient();
   const { session, profile, loading: authLoading, hasPersistedAuthHint, signOut: authSignOut } = useAuth();
   const sessionUser = session?.user ?? null;
   const [scrolled, setScrolled] = useState(false);
@@ -59,6 +62,11 @@ export default function Header() {
       console.error('[Header] signOut:', e);
     }
   }, [authSignOut]);
+
+  const prefetchTerritory = useCallback(() => {
+    queryClient.prefetchQuery({ queryKey: ['territory', 'intro'], queryFn: fetchTerritoryIntro });
+    queryClient.prefetchQuery({ queryKey: ['territory', 'features'], queryFn: fetchTerritoryFeatures });
+  }, [queryClient]);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -147,6 +155,8 @@ export default function Header() {
                 <Link
                   key={item.id}
                   to={item.path}
+                  onMouseEnter={item.path === ROUTES.territory ? prefetchTerritory : undefined}
+                  onFocus={item.path === ROUTES.territory ? prefetchTerritory : undefined}
                   className={`relative px-6 py-2.5 rounded-full text-sm font-semibold tracking-wider transition-all duration-300 ${
                     active
                       ? solidSurface
@@ -304,6 +314,8 @@ export default function Header() {
                 <Link
                   key={item.id}
                   to={item.path}
+                  onTouchStart={item.path === ROUTES.territory ? prefetchTerritory : undefined}
+                  onMouseEnter={item.path === ROUTES.territory ? prefetchTerritory : undefined}
                   className={`text-left text-xl font-serif px-6 py-4 rounded-2xl transition-colors ${
                     active ? 'bg-[#EBE9E1] text-[#4A5D4E]' : 'text-[#2D332F] hover:bg-black/5'
                   }`}
