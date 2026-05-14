@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import { Loader2, X } from 'lucide-react';
 
 /**
- * Модалка входа по magic-link (OTP).
+ * Модалка входа для комментирования.
  * Пропсы:
  *   isOpen      — управляет видимостью
  *   onClose     — закрыть модалку
- *   onSubmit    — async (email: string) => void, вызывает signInWithOtp
+ *   onSubmit    — async ({ email, password }) => void
  */
 export default function JoinModal({ isOpen, onClose, onSubmit }) {
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [message, setMessage] = useState(null);
   const [busy, setBusy] = useState(false);
 
@@ -20,11 +21,13 @@ export default function JoinModal({ isOpen, onClose, onSubmit }) {
     setMessage(null);
     setBusy(true);
     try {
-      await onSubmit(email);
-      setMessage('Письмо со ссылкой отправлено. Проверьте почту и перейдите по ссылке, чтобы войти.');
+      await onSubmit({ email, password });
+      setMessage('Вход выполнен. Можно оставлять комментарии.');
       setEmail('');
+      setPassword('');
+      onClose();
     } catch (err) {
-      setMessage(err.message ?? 'Не удалось отправить ссылку');
+      setMessage(err.message ?? 'Не удалось войти');
     } finally {
       setBusy(false);
     }
@@ -52,7 +55,7 @@ export default function JoinModal({ isOpen, onClose, onSubmit }) {
             Вход в комьюнити
           </h2>
           <p className="text-sm text-[#5A635D] mb-6 font-light leading-relaxed">
-            Укажите email — мы отправим одноразовую ссылку для входа (magic link).
+            Войдите через email и пароль, чтобы оставлять комментарии.
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -72,6 +75,22 @@ export default function JoinModal({ isOpen, onClose, onSubmit }) {
               />
             </div>
 
+            <div>
+              <label htmlFor="otp-password" className="block text-xs uppercase tracking-wider text-[#5A635D] mb-2">
+                Пароль
+              </label>
+              <input
+                id="otp-password"
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="current-password"
+                placeholder="••••••••"
+                className="w-full rounded-xl bg-white border border-[#E5E3DB] px-4 py-3 text-sm text-[#2D332F] placeholder:text-[#5A635D]/40 focus:outline-none focus:ring-2 focus:ring-[#4A5D4E]"
+              />
+            </div>
+
             {message && (
               <p className="text-sm rounded-xl px-4 py-3 bg-[#4A5D4E]/10 border border-[#4A5D4E]/25 text-[#2D332F]">
                 {message}
@@ -84,7 +103,7 @@ export default function JoinModal({ isOpen, onClose, onSubmit }) {
               className="w-full py-4 rounded-full bg-[#2D332F] text-[#F5F4F0] font-bold text-sm uppercase tracking-widest hover:bg-[#4A5D4E] transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
             >
               {busy && <Loader2 className="w-4 h-4 animate-spin" />}
-              Получить ссылку
+              Войти
             </button>
           </form>
         </div>

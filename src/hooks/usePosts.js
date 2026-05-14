@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createComment, deleteComment, deletePost, fetchPosts } from '../api/posts.js';
-import { isSupabaseConfigured } from '../api/supabase.js';
+import { isApiConfigured } from '../api/client.js';
 
 /** Ключ кеша — используется при инвалидации и optimistic updates. */
 export const POSTS_QUERY_KEY = ['posts'];
@@ -10,14 +10,14 @@ export const POSTS_QUERY_KEY = ['posts'];
 /**
  * Загружает список постов с комментариями и профилями авторов.
  * Автоматически обновляется в фоне каждые 60 секунд.
- * При Supabase = null сразу возвращает пустой массив без запроса.
+ * При API = null сразу возвращает пустой массив без запроса.
  */
 export function usePosts() {
   return useQuery({
     queryKey: POSTS_QUERY_KEY,
     queryFn: fetchPosts,
     staleTime: 60_000,
-    enabled: isSupabaseConfigured,
+    enabled: isApiConfigured,
     placeholderData: [],
   });
 }

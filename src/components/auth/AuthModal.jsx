@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Loader2, X } from 'lucide-react';
-import { supabase } from '../../api/supabase.js';
 import { useAuth } from '../../context/AuthContext.jsx';
 
 function GoogleMark({ className }) {
@@ -37,7 +36,7 @@ function translateAuthError(message) {
 }
 
 export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
-  const { signInWithPassword, signUp, isSupabaseConfigured, session } = useAuth();
+  const { signInWithPassword, signUp, isApiConfigured, session } = useAuth();
   const [tab, setTab] = useState(initialTab);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -72,22 +71,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
 
   const handleGoogleLogin = async () => {
     setFormError(null);
-    if (!isSupabaseConfigured || !supabase) {
-      setFormError('Supabase не настроен. Проверьте файл .env.');
-      return;
-    }
-    setBusy(true);
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: { redirectTo: window.location.origin },
-      });
-      if (error) throw error;
-    } catch (err) {
-      setFormError(translateAuthError(err.message));
-    } finally {
-      setBusy(false);
-    }
+    setFormError('Вход через Google временно отключён после миграции. Используйте email и пароль.');
   };
 
   const validate = (mode) => {
@@ -106,8 +90,8 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
     const errs = validate(tab === 'login' ? 'login' : 'register');
     setFieldErrors(errs);
     if (Object.keys(errs).length > 0) return;
-    if (!isSupabaseConfigured) {
-      setFormError('Supabase не настроен. Проверьте файл .env.');
+    if (!isApiConfigured) {
+      setFormError('API не настроен. Проверьте VITE_API_URL или backend на том же домене.');
       return;
     }
     setBusy(true);
@@ -121,7 +105,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
         setFieldErrors({});
         setTab('login');
         setPassword('');
-        setInfoBanner('Регистрация прошла успешно. Если включено подтверждение email — проверьте почту и войдите.');
+        setInfoBanner('Регистрация прошла успешно. Теперь вы вошли в аккаунт.');
       }
     } catch (err) {
       const msg = translateAuthError(err.message);

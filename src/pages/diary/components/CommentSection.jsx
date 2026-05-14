@@ -107,7 +107,7 @@ export default function CommentSection({ postId, comments, sessionUser, isAdmin,
               <div>
                 <p className="font-serif text-lg text-[#2D332F] mb-1">Участвуйте в обсуждении</p>
                 <p className="text-sm text-[#5A635D] font-light leading-relaxed">
-                  Войдите по ссылке из письма (magic link), чтобы оставлять комментарии.
+                  Войдите через email и пароль, чтобы оставлять комментарии.
                 </p>
               </div>
             </div>

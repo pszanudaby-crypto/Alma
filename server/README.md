@@ -1,0 +1,22 @@
+# Alma Backend
+
+Backend replaces direct Supabase calls with a Node.js API and PostgreSQL.
+
+## Local run
+
+```bash
+cp .env.example .env
+npm run migrate
+npm run dev:full
+```
+
+Required server variables:
+
+- `DATABASE_URL`
+- `JWT_SECRET`
+- `CORS_ORIGIN`
+- `PUBLIC_APP_URL`
+- `MEDIA_DIR`
+- `ADMIN_EMAILS`
+
+The first registered user becomes `admin` automatically.

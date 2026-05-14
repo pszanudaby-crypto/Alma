@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ImagePlus, Loader2, Paperclip, X } from 'lucide-react';
-import { supabase } from '../../api/supabase.js';
+import { savePost, uploadMedia } from '../../api/posts.js';
 
 const defaultForm = () => ({ title: '', content: '', category: '' });
-const BUCKET = 'diary_media';
 
 /**
  * Модалка создания / редактирования записи в дневнике стройки.
@@ -36,7 +35,7 @@ export default function PostModal({ isOpen, onClose, post, userId, onSaved }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!supabase || !userId) return;
+    if (!userId) return;
     const title = form.title.trim();
     const content = form.content.trim();
     const category = form.category.trim();
@@ -49,24 +48,13 @@ export default function PostModal({ isOpen, onClose, post, userId, onSaved }) {
     try {
       if (selectedFile) {
         setIsUploadingMedia(true);
-        const safeName = selectedFile.name.replace(/\s+/g, '_');
-        const path = `public/${Date.now()}_${safeName}`;
-        const { data: uploadData, error: uploadError } = await supabase.storage.from(BUCKET).upload(path, selectedFile);
+        const uploadData = await uploadMedia(selectedFile);
         setIsUploadingMedia(false);
-        if (uploadError) throw uploadError;
-        if (!uploadData?.path) throw new Error('Не удалось получить путь загруженного файла.');
-        const { data: urlData } = supabase.storage.from(BUCKET).getPublicUrl(uploadData.path);
-        mediaUrl = urlData?.publicUrl ?? null;
+        mediaUrl = uploadData?.url ?? null;
         if (!mediaUrl) throw new Error('Не удалось получить публичную ссылку на файл.');
       }
 
-      if (isEdit) {
-        const { error: upErr } = await supabase.from('posts').update({ title, content, category: category || null, media_url: mediaUrl }).eq('id', post.id);
-        if (upErr) throw upErr;
-      } else {
-        const { error: insErr } = await supabase.from('posts').insert({ title, content, category: category || null, author_id: userId, media_url: mediaUrl });
-        if (insErr) throw insErr;
-      }
+      await savePost({ id: post?.id, title, content, category: category || null, media_url: mediaUrl });
       await onSaved?.();
       onClose();
     } catch (err) {

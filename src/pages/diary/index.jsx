@@ -19,7 +19,7 @@ import JoinModal from './components/JoinModal.jsx';
  *   PostModal          → создание / редактирование записи (только admin)
  */
 export default function ConstructionDiary() {
-  const { session, role, loading: authLoading, hasPersistedAuthHint, signInWithOtp, signOut, isSupabaseConfigured } = useAuth();
+  const { session, role, loading: authLoading, hasPersistedAuthHint, signInWithPassword, signOut, isApiConfigured } = useAuth();
   const sessionUser = session?.user ?? null;
   const isAdmin = role === 'admin';
 
@@ -78,7 +78,7 @@ export default function ConstructionDiary() {
         <div className="max-w-5xl mx-auto space-y-8">
 
           {/* Кнопка «Добавить запись» для admin */}
-          {isAdmin && isSupabaseConfigured && (
+          {isAdmin && isApiConfigured && (
             <div className="flex justify-end">
               <button
                 type="button"
@@ -91,12 +91,10 @@ export default function ConstructionDiary() {
             </div>
           )}
 
-          {/* Предупреждение об отсутствии Supabase */}
-          {!isSupabaseConfigured && (
+          {/* Предупреждение об отсутствии API */}
+          {!isApiConfigured && (
             <div className="rounded-[2rem] border border-amber-200/80 bg-amber-50/90 backdrop-blur-md px-6 py-5 text-sm text-amber-950 shadow-sm">
-              В <code>.env</code> не заданы переменные Supabase — дневник недоступен. Добавьте{' '}
-              <code className="text-xs bg-white/70 px-1.5 py-0.5 rounded">VITE_SUPABASE_URL</code> и{' '}
-              <code className="text-xs bg-white/70 px-1.5 py-0.5 rounded">VITE_SUPABASE_ANON_KEY</code>, затем перезапустите dev-сервер.
+              API дневника недоступен. Проверьте <code>VITE_API_URL</code> или backend на том же домене.
             </div>
           )}
 
@@ -179,7 +177,7 @@ export default function ConstructionDiary() {
       <JoinModal
         isOpen={joinOpen}
         onClose={() => setJoinOpen(false)}
-        onSubmit={signInWithOtp}
+        onSubmit={signInWithPassword}
       />
     </div>
   );
