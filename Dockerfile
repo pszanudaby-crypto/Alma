@@ -9,9 +9,9 @@ COPY . .
 RUN npm run build
 
 ENV NODE_ENV=production
-ENV PORT=8080
+ENV PORT=80
 ENV MEDIA_DIR=/data/uploads
 
-EXPOSE 8080
+EXPOSE 80
 
 CMD ["sh", "-c", "npm run migrate && npm start"]
