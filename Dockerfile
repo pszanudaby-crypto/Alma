@@ -14,4 +14,4 @@ ENV MEDIA_DIR=/data/uploads
 
 EXPOSE 8080
 
-CMD ["npm", "start"]
+CMD ["sh", "-c", "npm run migrate && npm start"]
