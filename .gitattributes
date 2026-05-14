@@ -1,0 +1,3 @@
+# Нормализация переносов строк: в репозитории всегда LF, на Windows — CRLF при checkout
+* text=auto eol=lf
+*.bat text eol=crlf

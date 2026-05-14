@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SmoothScroll from '../../components/ui/SmoothScroll.jsx';
 import SEOMeta from '../../components/ui/SEOMeta.jsx';
+import ContactModal from '../../components/ui/ContactModal.jsx';
 import HeroSection from './components/HeroSection.jsx';
 import Marquee from './components/Marquee.jsx';
 import ConceptSection from './components/ConceptSection.jsx';
@@ -24,8 +25,11 @@ import { G, MARQUEE_ITEMS } from './constants.js';
  * Тексты и данные — в ./constants.js.
  */
 export default function InvestorsPage() {
+  const [contactOpen, setContactOpen] = useState(false);
+
   return (
     <>
+      <ContactModal isOpen={contactOpen} onClose={() => setContactOpen(false)} />
       <SEOMeta
         title="Инвесторам"
         description="Инвестиционный меморандум wellness-проекта «Альма» на берегу Финского залива. Загородная недвижимость, барнхаусы, устойчивая бизнес-модель."
@@ -70,8 +74,8 @@ export default function InvestorsPage() {
         <Marquee items={MARQUEE_ITEMS} />
         <ConceptSection />
         <StatsSection />
-        <MemorandumSection />
-        <FooterStrip />
+        <MemorandumSection onContact={() => setContactOpen(true)} />
+        <FooterStrip onContact={() => setContactOpen(true)} />
       </div>
     </>
   );

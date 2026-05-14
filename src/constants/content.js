@@ -386,10 +386,18 @@ export const FOOTER_COPY = {
   description:
     'Место для восстановления на берегу Финского залива. Пространство, где природа сама возвращает силы.',
   contacts: ['Поселок Советский,', 'Ленинградская область'],
-  email: 'hello@alma.ru',
+  email: 'alma_centre@mail.ru',
   copyright: '© 2026 Проект «Альма». Все права защищены.',
   legalPrivacy: 'Политика конфиденциальности',
   legalReports: 'Отчеты',
+};
+
+export const CONTACT_INFO = {
+  name:  'Горбунова Виктория Константиновна',
+  role:  'Руководитель проекта',
+  email: 'alma_centre@mail.ru',
+  phone: '+7 906 277 66 00',
+  phoneHref: 'tel:+79062776600',
 };
 
 export const HEADER_COPY = {

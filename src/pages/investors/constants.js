@@ -29,7 +29,7 @@ export const CONCEPT_TEXT =
 
 /** Контактные блоки в футер-полосе. */
 export const FOOTER_CONTACTS = [
-  { label: 'Прямой контакт', value: 'hello@alma.ru',               isEmail: true },
+  { label: 'Прямой контакт', value: 'alma_centre@mail.ru', isEmail: true },
   { label: 'Локация',        value: 'Поселок Советский,\nЛенинградская область' },
-  { label: 'Статус',         value: 'Раунд открыт',                 accent: 'Q2 · 2026' },
+  { label: 'Статус',         value: 'Раунд открыт', accent: 'Q2 · 2026' },
 ];

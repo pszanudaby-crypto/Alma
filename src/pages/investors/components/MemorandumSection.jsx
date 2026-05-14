@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Download, Lock } from 'lucide-react';
+import { Download, Lock, Mail } from 'lucide-react';
 import MeshBackground from './MeshBackground.jsx';
 import MagneticButton from '../../../components/ui/MagneticButton.jsx';
 import { G, EASE_OUT } from '../constants.js';
@@ -13,7 +13,7 @@ import { G, EASE_OUT } from '../constants.js';
  * Кнопка заблокирована (disabled) — файл ещё не готов к публикации.
  * Когда файл появится: уберите disabled, замените href на реальную ссылку.
  */
-export default function MemorandumSection() {
+export default function MemorandumSection({ onContact }) {
   return (
     <section style={{ position: 'relative', padding: 'clamp(60px, 10vw, 120px) 24px' }}>
       <motion.div
@@ -87,7 +87,7 @@ export default function MemorandumSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
             transition={{ duration: 1, delay: 0.5, ease: EASE_OUT }}
-            style={{ display: 'flex', justifyContent: 'center' }}
+            style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}
           >
             <MagneticButton
               disabled
@@ -104,6 +104,23 @@ export default function MemorandumSection() {
               <Lock size={15} />
               Скоро · По запросу
               <Download size={15} />
+            </MagneticButton>
+
+            <MagneticButton
+              onClick={onContact}
+              strength={0.22}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '12px',
+                padding: '16px 36px', borderRadius: '100px',
+                background: 'transparent',
+                border: '1.5px solid rgba(245,244,240,0.35)',
+                color: 'rgba(245,244,240,0.9)',
+                fontSize: '0.88rem', fontWeight: 600, letterSpacing: '0.08em',
+                cursor: 'pointer',
+              }}
+            >
+              <Mail size={14} />
+              Связаться с командой
             </MagneticButton>
           </motion.div>
 

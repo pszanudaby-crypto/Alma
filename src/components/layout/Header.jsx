@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { ArrowRight, Heart, Menu, X } from 'lucide-react';
 import LeafIcon from '../ui/LeafIcon.jsx';
 import AuthModal from '../auth/AuthModal.jsx';
+import ContactModal from '../ui/ContactModal.jsx';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { MOBILE_NAV_ITEMS, NAV_ITEMS, ROUTES } from '../../constants/navigation.js';
 import { HEADER_COPY } from '../../constants/content.js';
@@ -30,6 +31,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [contactModalOpen, setContactModalOpen] = useState(false);
 
   const authAreaReady = !authLoading || sessionUser || (authLoading && hasPersistedAuthHint);
   const authHydrating = authLoading && !sessionUser && hasPersistedAuthHint;
@@ -223,6 +225,7 @@ export default function Header() {
             )}
             <button
               type="button"
+              onClick={() => setContactModalOpen(true)}
               className={`px-8 py-3.5 rounded-full text-sm font-bold tracking-widest uppercase transition-all duration-500 hover:-translate-y-0.5 ${
                 solidSurface
                   ? 'bg-[#2D332F] text-white hover:bg-[#4A5D4E] shadow-lg shadow-black/10'
@@ -351,6 +354,7 @@ export default function Header() {
         )}
       </header>
       <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} />
+      <ContactModal isOpen={contactModalOpen} onClose={() => setContactModalOpen(false)} />
     </div>
   );
 }
