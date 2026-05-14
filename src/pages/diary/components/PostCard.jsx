@@ -31,7 +31,7 @@ function getMediaKind(url) {
  *   onEdit       — callback (post) => void для открытия PostModal
  *   onJoinClick  — callback для JoinModal
  */
-export default function PostCard({ post, sessionUser, isAdmin, onEdit, onJoinClick }) {
+export default function PostCard({ post, sessionUser, isAdmin, onEdit, onJoinClick, listIndex = 0 }) {
   const { mutate: removePost } = useDeletePost();
 
   return (
@@ -98,6 +98,8 @@ export default function PostCard({ post, sessionUser, isAdmin, onEdit, onJoinCli
             <img
               src={post.media_url}
               alt="Медиа стройки"
+              loading={listIndex === 0 ? 'eager' : 'lazy'}
+              decoding="async"
               className="w-full max-h-[520px] rounded-xl mt-6 object-cover"
             />
           )

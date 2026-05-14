@@ -153,6 +153,7 @@ export default function ConstructionDiary() {
             <FadeUp key={post.id} delay={idx * 60}>
               <PostCard
                 post={post}
+                listIndex={idx}
                 sessionUser={sessionUser}
                 isAdmin={isAdmin}
                 onEdit={openEditPost}
