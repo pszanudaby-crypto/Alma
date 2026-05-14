@@ -38,6 +38,8 @@ export default defineConfig({
     host: true,
     port: DEV_PORT,
     strictPort: true,
+    /** LAN-имена ПК, ngrok/cloudflared и т.п. — иначе Vite отдаёт 403 «host is not allowed». */
+    allowedHosts: true,
     ...(lanOrigin
       ? {
           origin: lanOrigin,
@@ -48,5 +50,10 @@ export default defineConfig({
           },
         }
       : {}),
+  },
+  preview: {
+    host: true,
+    strictPort: true,
+    allowedHosts: true,
   },
 });
