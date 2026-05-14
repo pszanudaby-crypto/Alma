@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X, Mail, Phone, User, Leaf } from 'lucide-react';
 import { CONTACT_INFO } from '../../constants/content.js';
 
@@ -16,7 +17,7 @@ export default function ContactModal({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <>
       {/* Тёмный backdrop */}
       <div
@@ -138,7 +139,8 @@ export default function ContactModal({ isOpen, onClose }) {
           </a>
         </div>
       </div>
-    </>
+    </>,
+    document.body,
   );
 }
 
