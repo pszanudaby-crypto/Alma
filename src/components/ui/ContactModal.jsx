@@ -2,11 +2,6 @@ import React, { useEffect } from 'react';
 import { X, Mail, Phone, User, Leaf } from 'lucide-react';
 import { CONTACT_INFO } from '../../constants/content.js';
 
-/**
- * Модальное окно контактов.
- * Принимает: isOpen (bool), onClose (fn).
- * Используется из Header и со страницы инвесторов.
- */
 export default function ContactModal({ isOpen, onClose }) {
   useEffect(() => {
     if (!isOpen) return;
@@ -22,121 +17,154 @@ export default function ContactModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
+    /* Полноэкранный overlay */
     <div
-      className="fixed inset-0 z-[200] overflow-y-auto"
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 9999,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '16px',
+        backgroundColor: 'rgba(26,30,27,0.65)',
+        backdropFilter: 'blur(6px)',
+        WebkitBackdropFilter: 'blur(6px)',
+      }}
+      onClick={onClose}
       role="dialog"
       aria-modal="true"
       aria-label="Контакты"
     >
-      {/* Overlay — за карточкой */}
+      {/* Карточка — stopPropagation чтобы клик внутри не закрывал */}
       <div
-        className="fixed inset-0 bg-[#1A1E1B]/60 backdrop-blur-sm"
-        onClick={onClose}
-        aria-hidden
-      />
-
-      {/* Враппер центрирования */}
-      <div className="flex min-h-full items-center justify-center p-4 py-20">
-
-      {/* Карточка */}
-      <div className="relative z-10 w-full max-w-md bg-[#F5F4F0] rounded-3xl shadow-2xl overflow-hidden">
+        style={{
+          position: 'relative',
+          width: '100%',
+          maxWidth: '440px',
+          backgroundColor: '#F5F4F0',
+          borderRadius: '28px',
+          boxShadow: '0 32px 80px -24px rgba(26,30,27,0.55)',
+          overflow: 'hidden',
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Шапка */}
-        <div className="bg-[#2D332F] px-8 pt-8 pb-10">
+        <div style={{ backgroundColor: '#2D332F', padding: '32px 32px 40px' }}>
           <button
             type="button"
             onClick={onClose}
-            className="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/20 transition-colors"
             aria-label="Закрыть"
+            style={{
+              position: 'absolute',
+              top: '16px',
+              right: '16px',
+              width: '36px',
+              height: '36px',
+              borderRadius: '50%',
+              border: 'none',
+              backgroundColor: 'rgba(255,255,255,0.1)',
+              color: 'rgba(255,255,255,0.7)',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
           >
-            <X className="w-4 h-4" />
+            <X size={16} />
           </button>
 
-          <div className="w-14 h-14 rounded-full bg-[#4A5D4E] flex items-center justify-center mb-5">
-            <Leaf className="w-6 h-6 text-[#F5F4F0]" strokeWidth={1.5} />
+          <div style={{
+            width: '52px', height: '52px', borderRadius: '50%',
+            backgroundColor: '#4A5D4E',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            marginBottom: '20px',
+          }}>
+            <Leaf size={22} color="#F5F4F0" strokeWidth={1.5} />
           </div>
-          <p className="text-[#8F9779] text-xs uppercase tracking-[0.2em] font-semibold mb-1">
+
+          <p style={{ color: '#8F9779', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.2em', fontWeight: 700, marginBottom: '6px' }}>
             Связаться с нами
           </p>
-          <h2 className="text-white font-serif text-2xl leading-snug">
+          <h2 style={{ color: '#fff', fontFamily: '"Cormorant Garamond", serif', fontSize: '22px', margin: 0 }}>
             Проект «Альма»
           </h2>
         </div>
 
         {/* Тело */}
-        <div className="px-8 py-8 space-y-5">
+        <div style={{ padding: '28px 32px 8px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
           {/* Имя */}
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-full bg-[#EBE9E1] flex items-center justify-center shrink-0 mt-0.5">
-              <User className="w-4 h-4 text-[#4A5D4E]" />
-            </div>
-            <div>
-              <p className="text-[#8F9779] text-xs uppercase tracking-[0.15em] font-semibold mb-0.5">
-                {CONTACT_INFO.role}
-              </p>
-              <p className="text-[#2D332F] font-semibold text-base">
-                {CONTACT_INFO.name}
-              </p>
-            </div>
-          </div>
-
-          <div className="w-full h-px bg-[#E5E3DB]" aria-hidden />
+          <Row icon={<User size={16} color="#4A5D4E" />} label={CONTACT_INFO.role} value={CONTACT_INFO.name} />
+          <Divider />
 
           {/* Телефон */}
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-full bg-[#EBE9E1] flex items-center justify-center shrink-0 mt-0.5">
-              <Phone className="w-4 h-4 text-[#4A5D4E]" />
-            </div>
-            <div>
-              <p className="text-[#8F9779] text-xs uppercase tracking-[0.15em] font-semibold mb-0.5">
-                Телефон
-              </p>
-              <a
-                href={CONTACT_INFO.phoneHref}
-                className="text-[#2D332F] font-semibold text-base hover:text-[#4A5D4E] transition-colors"
-              >
-                {CONTACT_INFO.phone}
-              </a>
-            </div>
-          </div>
-
-          <div className="w-full h-px bg-[#E5E3DB]" aria-hidden />
+          <Row
+            icon={<Phone size={16} color="#4A5D4E" />}
+            label="Телефон"
+            value={<a href={CONTACT_INFO.phoneHref} style={{ color: '#2D332F', fontWeight: 600, textDecoration: 'none' }}>{CONTACT_INFO.phone}</a>}
+          />
+          <Divider />
 
           {/* Email */}
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-full bg-[#EBE9E1] flex items-center justify-center shrink-0 mt-0.5">
-              <Mail className="w-4 h-4 text-[#4A5D4E]" />
-            </div>
-            <div>
-              <p className="text-[#8F9779] text-xs uppercase tracking-[0.15em] font-semibold mb-0.5">
-                Электронная почта
-              </p>
-              <a
-                href={`mailto:${CONTACT_INFO.email}`}
-                className="text-[#2D332F] font-semibold text-base hover:text-[#4A5D4E] transition-colors break-all"
-              >
-                {CONTACT_INFO.email}
-              </a>
-            </div>
-          </div>
+          <Row
+            icon={<Mail size={16} color="#4A5D4E" />}
+            label="Электронная почта"
+            value={<a href={`mailto:${CONTACT_INFO.email}`} style={{ color: '#2D332F', fontWeight: 600, textDecoration: 'none', wordBreak: 'break-all' }}>{CONTACT_INFO.email}</a>}
+          />
         </div>
 
-        {/* CTA-кнопки */}
-        <div className="px-8 pb-8 flex flex-col gap-3">
+        {/* Кнопки */}
+        <div style={{ padding: '24px 32px 32px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
           <a
             href={CONTACT_INFO.phoneHref}
-            className="w-full py-4 rounded-2xl bg-[#2D332F] text-[#F5F4F0] text-sm font-bold tracking-wider text-center hover:bg-[#4A5D4E] transition-colors"
+            style={{
+              display: 'block', textAlign: 'center',
+              padding: '15px', borderRadius: '14px',
+              backgroundColor: '#2D332F', color: '#F5F4F0',
+              fontWeight: 700, fontSize: '14px', letterSpacing: '0.05em',
+              textDecoration: 'none',
+            }}
           >
             Позвонить
           </a>
           <a
             href={`mailto:${CONTACT_INFO.email}`}
-            className="w-full py-4 rounded-2xl border border-[#2D332F]/25 text-[#2D332F] text-sm font-bold tracking-wider text-center hover:bg-[#2D332F]/5 transition-colors"
+            style={{
+              display: 'block', textAlign: 'center',
+              padding: '15px', borderRadius: '14px',
+              border: '1.5px solid rgba(45,51,47,0.2)',
+              color: '#2D332F', fontWeight: 700, fontSize: '14px',
+              letterSpacing: '0.05em', textDecoration: 'none',
+            }}
           >
             Написать письмо
           </a>
         </div>
       </div>
-      </div>{/* /враппер центрирования */}
     </div>
   );
+}
+
+function Row({ icon, label, value }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '14px' }}>
+      <div style={{
+        width: '38px', height: '38px', borderRadius: '50%',
+        backgroundColor: '#EBE9E1', flexShrink: 0, marginTop: '2px',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}>
+        {icon}
+      </div>
+      <div>
+        <p style={{ margin: '0 0 3px', color: '#8F9779', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 700 }}>
+          {label}
+        </p>
+        <div style={{ color: '#2D332F', fontWeight: 600, fontSize: '15px' }}>{value}</div>
+      </div>
+    </div>
+  );
+}
+
+function Divider() {
+  return <div style={{ height: '1px', backgroundColor: '#E5E3DB' }} />;
 }
