@@ -18,5 +18,7 @@ Required server variables:
 - `PUBLIC_APP_URL`
 - `MEDIA_DIR`
 - `ADMIN_EMAILS`
+- `ADMIN_PASSWORD`
 
 The first registered user becomes `admin` automatically.
+If `ADMIN_EMAILS` and `ADMIN_PASSWORD` are set, migrations create/update the admin user.

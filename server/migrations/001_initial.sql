@@ -39,3 +39,19 @@ create index if not exists idx_posts_author_id on posts (author_id);
 create index if not exists idx_comments_post_id on comments (post_id);
 create index if not exists idx_comments_created_at on comments (created_at);
 create index if not exists idx_comments_user_id on comments (user_id);
+
+create or replace function touch_updated_at()
+returns trigger
+language plpgsql
+as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$;
+
+drop trigger if exists posts_touch_updated_at on posts;
+create trigger posts_touch_updated_at
+  before update on posts
+  for each row
+  execute procedure touch_updated_at();

@@ -2,6 +2,7 @@ import 'dotenv/config';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import bcrypt from 'bcryptjs';
 import { pool, query, transaction } from './db.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -38,6 +39,62 @@ async function run() {
     });
     console.log(`applied ${file}`);
   }
+
+  await seedAdminAndContent();
+}
+
+function firstAdminEmail() {
+  return (process.env.ADMIN_EMAILS || '')
+    .split(',')
+    .map((email) => email.trim().toLowerCase())
+    .find(Boolean);
+}
+
+async function seedAdminAndContent() {
+  const email = firstAdminEmail();
+  const password = process.env.ADMIN_PASSWORD;
+
+  if (!email || !password) {
+    console.log('skip seed: ADMIN_EMAILS or ADMIN_PASSWORD is not configured');
+    return;
+  }
+
+  await transaction(async (client) => {
+    const passwordHash = await bcrypt.hash(password, 12);
+    const { rows } = await client.query(
+      `insert into users (email, password_hash, display_name, role)
+       values ($1, $2, $3, 'admin')
+       on conflict (email) do update
+         set role = 'admin',
+             display_name = coalesce(users.display_name, excluded.display_name)
+       returning id`,
+      [email, passwordHash, 'Администратор Альма'],
+    );
+
+    const adminId = rows[0].id;
+    const { rows: existingPosts } = await client.query('select id from posts limit 1');
+    if (existingPosts.length > 0) {
+      console.log('skip seed posts: posts already exist');
+      return;
+    }
+
+    await client.query(
+      `insert into posts (title, content, category, author_id)
+       values
+         ($1, $2, $3, $4),
+         ($5, $6, $7, $4)`,
+      [
+        'Старт подготовки участка',
+        'Провели первичное обследование территории, обозначили зону под будущие барнхаусы и общие пространства. Погода держится — можно планировать выезд инженеров на съёмку рельефа.',
+        'Стройка',
+        adminId,
+        'Логистика и согласования',
+        'Сверяем поставки древесины и график подъезда техники. Параллельно согласуем временные въезды с местными службами, чтобы не мешать жителям поселка.',
+        'Благоустройство',
+      ],
+    );
+    console.log('seeded admin user and starter posts');
+  });
 }
 
 run()
