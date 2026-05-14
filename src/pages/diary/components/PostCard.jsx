@@ -89,9 +89,17 @@ export default function PostCard({ post, sessionUser, isAdmin, onEdit, onJoinCli
         {/* Медиа */}
         {post.media_url && (
           getMediaKind(post.media_url) === 'video' ? (
-            <video src={post.media_url} controls className="w-full rounded-xl mt-4" />
+            <video
+              src={post.media_url}
+              controls
+              className="w-full max-h-[420px] rounded-xl mt-6 object-contain bg-[#1A1E1B]/5"
+            />
           ) : (
-            <img src={post.media_url} alt="Медиа стройки" className="w-full rounded-xl mt-4 object-cover" />
+            <img
+              src={post.media_url}
+              alt="Медиа стройки"
+              className="w-full max-h-[520px] rounded-xl mt-6 object-cover"
+            />
           )
         )}
 

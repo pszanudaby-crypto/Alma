@@ -23,17 +23,20 @@ export default function ContactModal({ isOpen, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+      className="fixed inset-0 z-[200] overflow-y-auto"
       role="dialog"
       aria-modal="true"
       aria-label="Контакты"
     >
-      {/* Overlay */}
+      {/* Overlay — за карточкой */}
       <div
-        className="absolute inset-0 bg-[#1A1E1B]/60 backdrop-blur-sm"
+        className="fixed inset-0 bg-[#1A1E1B]/60 backdrop-blur-sm"
         onClick={onClose}
         aria-hidden
       />
+
+      {/* Враппер центрирования */}
+      <div className="flex min-h-full items-center justify-center p-4 py-20">
 
       {/* Карточка */}
       <div className="relative z-10 w-full max-w-md bg-[#F5F4F0] rounded-3xl shadow-2xl overflow-hidden">
@@ -133,6 +136,7 @@ export default function ContactModal({ isOpen, onClose }) {
           </a>
         </div>
       </div>
+      </div>{/* /враппер центрирования */}
     </div>
   );
 }
