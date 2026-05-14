@@ -76,8 +76,8 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
 
   const validate = (mode) => {
     const errs = {};
-    if (!email.trim()) errs.email = 'Укажите email.';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) errs.email = 'Введите корректный email.';
+    if (!email.trim()) errs.email = mode === 'login' ? 'Укажите логин или email.' : 'Укажите email.';
+    else if (mode === 'register' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) errs.email = 'Введите корректный email.';
     if (!password) errs.password = 'Введите пароль.';
     else if (password.length < 6) errs.password = 'Минимум 6 символов.';
     if (mode === 'register' && !displayName.trim()) errs.displayName = 'Как к вам обращаться?';
@@ -203,12 +203,12 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
                 )}
 
                 <div>
-                  <label htmlFor="auth-email" className="block text-xs uppercase tracking-wider text-[#5A635D] mb-2 font-semibold">Email</label>
+                  <label htmlFor="auth-email" className="block text-xs uppercase tracking-wider text-[#5A635D] mb-2 font-semibold">{tab === 'login' ? 'Логин или email' : 'Email'}</label>
                   <input
-                    id="auth-email" type="email" required autoComplete="email" value={email}
+                    id="auth-email" type={tab === 'login' ? 'text' : 'email'} required autoComplete={tab === 'login' ? 'username' : 'email'} value={email}
                     onChange={(e) => { setEmail(e.target.value); setFieldErrors((p) => ({ ...p, email: undefined })); }}
                     className={`w-full rounded-xl bg-white border px-4 py-3 text-sm text-[#2D332F] placeholder:text-[#5A635D]/40 focus:outline-none focus:ring-2 focus:ring-[#4A5D4E]/50 ${fieldErrors.email ? 'border-red-400/80' : 'border-[#E5E3DB]'}`}
-                    placeholder="you@example.com"
+                    placeholder={tab === 'login' ? 'admin или you@example.com' : 'you@example.com'}
                   />
                   {fieldErrors.email && <p className="mt-2 text-sm text-red-700 font-medium">{fieldErrors.email}</p>}
                 </div>

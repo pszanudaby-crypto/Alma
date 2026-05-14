@@ -50,9 +50,14 @@ function firstAdminEmail() {
     .find(Boolean);
 }
 
+function adminUsername() {
+  return (process.env.ADMIN_USERNAME || 'admin').trim().toLowerCase();
+}
+
 async function seedAdminAndContent() {
   const email = firstAdminEmail();
   const password = process.env.ADMIN_PASSWORD;
+  const username = adminUsername();
 
   if (!email || !password) {
     console.log('skip seed: ADMIN_EMAILS or ADMIN_PASSWORD is not configured');
@@ -62,13 +67,15 @@ async function seedAdminAndContent() {
   await transaction(async (client) => {
     const passwordHash = await bcrypt.hash(password, 12);
     const { rows } = await client.query(
-      `insert into users (email, password_hash, display_name, role)
-       values ($1, $2, $3, 'admin')
+      `insert into users (email, username, password_hash, display_name, role)
+       values ($1, $2, $3, $4, 'admin')
        on conflict (email) do update
          set role = 'admin',
-             display_name = coalesce(users.display_name, excluded.display_name)
+             username = excluded.username,
+             password_hash = excluded.password_hash,
+             display_name = excluded.display_name
        returning id`,
-      [email, passwordHash, 'Администратор Альма'],
+      [email, username, passwordHash, 'admin'],
     );
 
     const adminId = rows[0].id;

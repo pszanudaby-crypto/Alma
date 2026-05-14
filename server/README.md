@@ -18,6 +18,7 @@ Required server variables:
 - `PUBLIC_APP_URL`
 - `MEDIA_DIR`
 - `ADMIN_EMAILS`
+- `ADMIN_USERNAME`
 - `ADMIN_PASSWORD`
 
 The first registered user becomes `admin` automatically.

@@ -61,16 +61,16 @@ export default function JoinModal({ isOpen, onClose, onSubmit }) {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="otp-email" className="block text-xs uppercase tracking-wider text-[#5A635D] mb-2">
-                Email
+                Логин или email
               </label>
               <input
                 id="otp-email"
-                type="email"
+                type="text"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                autoComplete="email"
-                placeholder="you@example.com"
+                autoComplete="username"
+                placeholder="admin или you@example.com"
                 className="w-full rounded-xl bg-white border border-[#E5E3DB] px-4 py-3 text-sm text-[#2D332F] placeholder:text-[#5A635D]/40 focus:outline-none focus:ring-2 focus:ring-[#4A5D4E]"
               />
             </div>

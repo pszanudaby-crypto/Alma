@@ -48,7 +48,7 @@ export async function optionalAuth(req, _res, next) {
   try {
     const payload = jwt.verify(token, JWT_SECRET);
     const { rows } = await query(
-      'select id, email, display_name, role, created_at from users where id = $1 limit 1',
+      'select id, email, username, display_name, role, created_at from users where id = $1 limit 1',
       [payload.sub],
     );
     req.user = rows[0] ?? null;
@@ -89,6 +89,7 @@ export function serializeUser(user) {
   return {
     id: user.id,
     email: user.email,
+    username: user.username,
     role: user.role,
     display_name: user.display_name,
     user_metadata: {

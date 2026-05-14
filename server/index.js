@@ -74,14 +74,34 @@ function validateEmail(email) {
   return typeof email === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 }
 
+function cleanUsername(value) {
+  return String(value || '')
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9_.-]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 48) || null;
+}
+
 function adminEmails() {
   return new Set((process.env.ADMIN_EMAILS || '').split(',').map((email) => email.trim().toLowerCase()).filter(Boolean));
 }
 
 async function getUserByEmail(email) {
   const { rows } = await query(
-    'select id, email, password_hash, display_name, role, created_at from users where lower(email) = lower($1) limit 1',
+    'select id, email, username, password_hash, display_name, role, created_at from users where lower(email) = lower($1) limit 1',
     [email],
+  );
+  return rows[0] ?? null;
+}
+
+async function getUserByLogin(login) {
+  const { rows } = await query(
+    `select id, email, username, password_hash, display_name, role, created_at
+     from users
+     where lower(email) = lower($1) or lower(username) = lower($1)
+     limit 1`,
+    [login],
   );
   return rows[0] ?? null;
 }
@@ -184,6 +204,7 @@ app.post('/api/auth/register', async (req, res) => {
   }
 
   const passwordHash = await bcrypt.hash(password, 12);
+  const username = cleanUsername(email.split('@')[0]);
   const user = await transaction(async (client) => {
     const existing = await client.query('select id from users where lower(email) = lower($1) limit 1', [email]);
     if (existing.rows.length > 0) {
@@ -195,10 +216,10 @@ app.post('/api/auth/register', async (req, res) => {
     const count = await client.query('select count(*)::int as count from users');
     const role = count.rows[0].count === 0 || adminEmails().has(email) ? 'admin' : 'user';
     const inserted = await client.query(
-      `insert into users (email, password_hash, display_name, role)
-       values ($1, $2, $3, $4)
-       returning id, email, display_name, role, created_at`,
-      [email, passwordHash, displayName, role],
+      `insert into users (email, username, password_hash, display_name, role)
+       values ($1, $2, $3, $4, $5)
+       returning id, email, username, display_name, role, created_at`,
+      [email, username, passwordHash, displayName, role],
     );
     return inserted.rows[0];
   });
@@ -208,9 +229,9 @@ app.post('/api/auth/register', async (req, res) => {
 });
 
 app.post('/api/auth/login', async (req, res) => {
-  const email = String(req.body?.email ?? '').trim().toLowerCase();
+  const login = String(req.body?.email ?? req.body?.login ?? '').trim().toLowerCase();
   const password = String(req.body?.password ?? '');
-  const user = await getUserByEmail(email);
+  const user = await getUserByLogin(login);
 
   if (!user || !(await bcrypt.compare(password, user.password_hash))) {
     res.status(401).json({ message: 'Неверный email или пароль.' });
