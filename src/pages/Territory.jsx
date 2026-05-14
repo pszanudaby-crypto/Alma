@@ -47,7 +47,10 @@ function TerritoryImageCard({
         loading="lazy"
         decoding="async"
         draggable={false}
-        className={`absolute inset-0 h-full w-full object-cover transition-transform duration-[2s] group-hover:scale-105 ${imageClassName}`}
+        sizes={isWide
+          ? '(max-width: 768px) 100vw, 80vw'
+          : '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw'}
+        className={`absolute inset-0 h-full w-full object-cover transition-[transform,opacity] duration-[2s] group-hover:scale-105 bg-[#D5D3CC] ${imageClassName}`}
       />
 
       <div

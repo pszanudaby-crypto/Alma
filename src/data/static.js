@@ -48,7 +48,7 @@ export const TERRITORY_FEATURES = [
   },
   {
     kind: 'square-image',
-    imageSrc: 'https://images.unsplash.com/photo-1505159940484-eb2b9f2588e2?q=80&w=2070&auto=format&fit=crop',
+    imageSrc: 'https://images.unsplash.com/photo-1505159940484-eb2b9f2588e2?q=75&w=1400&fm=webp&auto=format&fit=crop',
     imageAlt: 'Спокойная гладь Финского залива',
     tag: '02 / Финский залив',
     title: 'Вода рядом',
@@ -64,7 +64,7 @@ export const TERRITORY_FEATURES = [
   },
   {
     kind: 'square-image',
-    imageSrc: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1000&auto=format&fit=crop',
+    imageSrc: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=75&w=800&fm=webp&auto=format&fit=crop',
     imageAlt: 'Горячая купель на свежем воздухе',
     tag: '04 / Купели',
     title: 'Подогреваемые купели',
