@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 
 const SITE_NAME = 'Альма';
-const BASE_URL  = 'https://alma-retreat.ru';
-const DEFAULT_IMAGE =
-  'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?q=80&w=1200&auto=format&fit=crop';
+const BASE_URL  = 'https://almacamp.ru';
+const DEFAULT_IMAGE = 'https://almacamp.ru/images/home-hero-forest-bridge.svg';
 
 /**
  * Обновляет мета-теги страницы без сторонних библиотек.

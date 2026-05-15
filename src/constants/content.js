@@ -21,8 +21,8 @@ export const HOME_AUDIENCE_SECTION = {
 };
 
 export const HOME_HERO_IMAGE = {
-  src: 'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?q=75&w=1600&fm=webp&auto=format&fit=crop',
-  srcMobile: 'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?q=75&w=800&fm=webp&auto=format&fit=crop',
+  src: '/images/home-hero-forest-bridge.svg',
+  srcMobile: '/images/home-hero-forest-bridge.svg',
   alt: 'Лес и деревянный мост',
 };
 
